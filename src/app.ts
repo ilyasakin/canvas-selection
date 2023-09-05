@@ -1,4 +1,7 @@
 import Position from "./position.ts";
+import Vector2d from "./vector2d.ts";
+import Dimension from "./dimension.ts";
+import SelectableItem from "./selectable-item.ts";
 
 class App {
     private readonly ctx: CanvasRenderingContext2D;
@@ -8,6 +11,21 @@ class App {
 
     private mouseDownPosition: Position = new Position(0, 0);
     private currentMousePosition: Position = new Position(0, 0);
+
+    private objects: Vector2d[] = [
+        new SelectableItem(
+            new Dimension(100, 100),
+            new Position(100, 100)
+        ),
+        new SelectableItem(
+            new Dimension(120, 150),
+            new Position(400, 200)
+        ),
+        new SelectableItem(
+            new Dimension(50, 50),
+            new Position(200, 400)
+        )
+    ];
 
     constructor(private canvas: HTMLCanvasElement) {
         const ctx = canvas.getContext('2d');
@@ -23,6 +41,7 @@ class App {
 
     public init(): void {
         this.initEventListeners();
+        this.objects.forEach((object) => object.init());
         this.loop();
     }
 
@@ -30,6 +49,8 @@ class App {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.strokeStyle = 'black';
         this.ctx.strokeRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+        this.objects.forEach((object) => object.draw(this.ctx));
 
         if (this.isMouseDown) {
             this.ctx.beginPath();
@@ -44,7 +65,7 @@ class App {
 
             this.ctx.stroke();
         }
-        
+
         window.requestAnimationFrame(this.loop.bind(this));
     }
 
@@ -58,7 +79,7 @@ class App {
         this.isMouseDown = true;
     }
 
-    private onMouseUp(event: MouseEvent): void {
+    private onMouseUp(): void {
         this.isMouseDown = false;
     }
 
