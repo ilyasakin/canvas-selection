@@ -135,8 +135,35 @@ class App {
         this.isMouseDown = true;
     }
 
-    private onMouseUp(): void {
+    private onMouseUp(event: MouseEvent): void {
         this.isMouseDown = false;
+        const isClicked = this.mouseDownPosition.x === this.currentMousePosition.x
+            && this.mouseDownPosition.y === this.currentMousePosition.y;
+
+        if (isClicked) {
+            const rect = this.canvas.getBoundingClientRect();
+            const clickPosition = new Position(
+                event.clientX - rect.left,
+                event.clientY - rect.top
+            );
+
+            this.objects.forEach((object) => {
+                    if (clickPosition.x > object.position.x
+                        && clickPosition.x < object.position.x + object.dimension.width
+                        && clickPosition.y > object.position.y
+                        && clickPosition.y < object.position.y + object.dimension.height) {
+                        object.state.isSelected = true;
+                        object.state.isHovered = false;
+                    } else {
+                        object.state.isSelected = false;
+                        object.state.isHovered = false;
+                    }
+                }
+            );
+            return;
+        }
+
+
         this.objects.forEach((object) => {
             if (object.state.isHovered) {
                 object.state.isSelected = true;
@@ -145,6 +172,7 @@ class App {
                 object.state.isSelected = false;
                 object.state.isHovered = false;
             }
+
         });
     }
 
@@ -159,7 +187,7 @@ class App {
         this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
         this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
         this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
-        
+
         window.addEventListener("click", () => {
             // const rect = this.canvas.getBoundingClientRect();
             // const clickPosition = new Position(
