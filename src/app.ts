@@ -72,33 +72,6 @@ class App {
             const isStartedDragginFromBottomLeft = this.mouseDownPosition.x < this.currentMousePosition.x
                 && this.mouseDownPosition.y > this.currentMousePosition.y;
 
-            const DIAGNOSTIC = true;
-            if (DIAGNOSTIC) {
-                // write diagnostic info top right
-                this.ctx.font = "12px Arial";
-                this.ctx.fillStyle = "white";
-                this.ctx.fillText(
-                    `isStartedDragginFromTopLeft: ${isStartedDragginFromTopLeft}`,
-                    10,
-                    20
-                );
-                this.ctx.fillText(
-                    `isStartedDragginFromBottomRight: ${isStartedDragginFromBottomRight}`,
-                    10,
-                    40
-                );
-                this.ctx.fillText(
-                    `isStartedDragginFromTopRight: ${isStartedDragginFromTopRight}`,
-                    10,
-                    60
-                );
-                this.ctx.fillText(
-                    `isStartedDragginFromBottomLeft: ${isStartedDragginFromBottomLeft}`,
-                    10,
-                    80
-                );
-            }
-
             // is drawn rectangle intersecting with any of the objects?
             this.objects.forEach((object) => {
                 if (isStartedDragginFromTopLeft) {
