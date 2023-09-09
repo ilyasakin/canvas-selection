@@ -199,6 +199,28 @@ class App {
                 this.isShiftDown = false;
             }
         });
+
+        window.addEventListener("click", (event: MouseEvent) => {
+            // const rect = this.canvas.getBoundingClientRect();
+            // const clickPosition = new Position(
+            //     event.clientX - rect.left,
+            //     event.clientY - rect.top
+            // );
+            //
+            // this.objects.forEach((object) => {
+            //         if (clickPosition.x > object.position.x
+            //             && clickPosition.x < object.position.x + object.dimension.width
+            //             && clickPosition.y > object.position.y
+            //             && clickPosition.y < object.position.y + object.dimension.height) {
+            //             object.state.isSelected = true;
+            //             object.state.isHovered = false;
+            //         } else {
+            //             object.state.isSelected = false;
+            //             object.state.isHovered = false;
+            //         }
+            //     }
+            // );
+        });
     }
 }
 
