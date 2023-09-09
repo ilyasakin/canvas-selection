@@ -7,7 +7,6 @@ class App {
     private readonly ctx: CanvasRenderingContext2D;
 
     private isMouseDown: boolean = false;
-    private isShiftDown: boolean = false;
 
     private mouseDownPosition: Position = new Position(0, 0);
     private currentMousePosition: Position = new Position(0, 0);
@@ -160,19 +159,7 @@ class App {
         this.canvas.addEventListener("mousedown", this.onMouseDown.bind(this));
         this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this));
         this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this));
-
-        window.addEventListener("keydown", (event: KeyboardEvent) => {
-            if (event.key === "Shift") {
-                this.isShiftDown = true;
-            }
-        });
-
-        window.addEventListener("keyup", (event: KeyboardEvent) => {
-            if (event.key === "Shift") {
-                this.isShiftDown = false;
-            }
-        });
-
+        
         window.addEventListener("click", () => {
             // const rect = this.canvas.getBoundingClientRect();
             // const clickPosition = new Position(
