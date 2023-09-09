@@ -173,7 +173,7 @@ class App {
             }
         });
 
-        window.addEventListener("click", (event: MouseEvent) => {
+        window.addEventListener("click", () => {
             // const rect = this.canvas.getBoundingClientRect();
             // const clickPosition = new Position(
             //     event.clientX - rect.left,
