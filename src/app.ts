@@ -165,6 +165,15 @@ class App {
 
     private onMouseUp(): void {
         this.isMouseDown = false;
+        this.objects.forEach((object) => {
+            if (object.state.isHovered) {
+                object.state.isSelected = true;
+                object.state.isHovered = false;
+            } else {
+                object.state.isSelected = false;
+                object.state.isHovered = false;
+            }
+        });
     }
 
     private onMouseMove(event: MouseEvent): void {
