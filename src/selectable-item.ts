@@ -13,13 +13,19 @@ class SelectableItem extends Vector2d {
     }
 
     public draw(ctx: CanvasRenderingContext2D): void {
-        ctx.beginPath();
 
         if (this.state.isHovered) {
-            ctx.setLineDash([3, 5]);
-        } else {
-            ctx.setLineDash([0, 0]);
+            ctx.beginPath();
+            ctx.strokeStyle = 'cyan';
+            ctx.setLineDash([5, 3])
+            ctx.rect(this.position.x - 8, this.position.y - 8, this.dimension.width + 16, this.dimension.height + 16);
+            ctx.stroke();
+            ctx.closePath();
         }
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'black';
+        ctx.setLineDash([0, 0])
 
         ctx.rect(
             this.position.x,
