@@ -1,7 +1,7 @@
 import Position from "./position.ts";
-import Vector2d from "./vector2d.ts";
 import Dimension from "./dimension.ts";
 import SelectableItem from "./selectable-item.ts";
+import State from "./state.ts";
 
 class App {
     private readonly ctx: CanvasRenderingContext2D;
@@ -12,18 +12,19 @@ class App {
     private mouseDownPosition: Position = new Position(0, 0);
     private currentMousePosition: Position = new Position(0, 0);
 
-    private objects: Vector2d[] = [
+    private objects: SelectableItem[] = [
         new SelectableItem(
             new Dimension(100, 100),
-            new Position(100, 100)
+            new Position(100, 100),
+            new State(false, false)
         ),
         new SelectableItem(
             new Dimension(120, 150),
-            new Position(400, 200)
+            new Position(400, 200), new State(false, false)
         ),
         new SelectableItem(
             new Dimension(50, 50),
-            new Position(200, 400)
+            new Position(200, 400), new State(false, false)
         )
     ];
 
@@ -50,8 +51,6 @@ class App {
         this.ctx.strokeStyle = 'black';
         this.ctx.strokeRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        this.objects.forEach((object) => object.draw(this.ctx));
-
         if (this.isMouseDown) {
             this.ctx.beginPath();
             this.ctx.setLineDash([5, 3])
@@ -64,7 +63,92 @@ class App {
             );
 
             this.ctx.stroke();
+            const isStartedDragginFromTopLeft = this.mouseDownPosition.x < this.currentMousePosition.x
+                && this.mouseDownPosition.y < this.currentMousePosition.y;
+            const isStartedDragginFromBottomRight = this.mouseDownPosition.x > this.currentMousePosition.x
+                && this.mouseDownPosition.y > this.currentMousePosition.y;
+            const isStartedDragginFromTopRight = this.mouseDownPosition.x > this.currentMousePosition.x
+                && this.mouseDownPosition.y < this.currentMousePosition.y;
+            const isStartedDragginFromBottomLeft = this.mouseDownPosition.x < this.currentMousePosition.x
+                && this.mouseDownPosition.y > this.currentMousePosition.y;
+
+            const DIAGNOSTIC = true;
+            if (DIAGNOSTIC) {
+                // write diagnostic info top right
+                this.ctx.font = "12px Arial";
+                this.ctx.fillStyle = "white";
+                this.ctx.fillText(
+                    `isStartedDragginFromTopLeft: ${isStartedDragginFromTopLeft}`,
+                    10,
+                    20
+                );
+                this.ctx.fillText(
+                    `isStartedDragginFromBottomRight: ${isStartedDragginFromBottomRight}`,
+                    10,
+                    40
+                );
+                this.ctx.fillText(
+                    `isStartedDragginFromTopRight: ${isStartedDragginFromTopRight}`,
+                    10,
+                    60
+                );
+                this.ctx.fillText(
+                    `isStartedDragginFromBottomLeft: ${isStartedDragginFromBottomLeft}`,
+                    10,
+                    80
+                );
+            }
+
+            // is drawn rectangle intersecting with any of the objects?
+            this.objects.forEach((object) => {
+                if (isStartedDragginFromTopLeft) {
+                    if (this.mouseDownPosition.x < object.position.x + object.dimension.width
+                        && this.mouseDownPosition.y < object.position.y + object.dimension.height
+                        && this.currentMousePosition.x > object.position.x
+                        && this.currentMousePosition.y > object.position.y) {
+                        object.state.isHovered = true;
+                    } else {
+                        object.state.isHovered = false;
+                    }
+
+                }
+
+                if (isStartedDragginFromBottomRight) {
+                    if (this.mouseDownPosition.x > object.position.x
+                        && this.mouseDownPosition.y > object.position.y
+                        && this.currentMousePosition.x < object.position.x + object.dimension.width
+                        && this.currentMousePosition.y < object.position.y + object.dimension.height) {
+                        object.state.isHovered = true;
+                    } else {
+                        object.state.isHovered = false;
+                    }
+                }
+
+                if (isStartedDragginFromTopRight) {
+                    if (this.mouseDownPosition.x > object.position.x
+                        && this.mouseDownPosition.y < object.position.y + object.dimension.height
+                        && this.currentMousePosition.x < object.position.x + object.dimension.width
+                        && this.currentMousePosition.y > object.position.y) {
+                        object.state.isHovered = true;
+                    } else {
+                        object.state.isHovered = false;
+                    }
+                }
+
+                if (isStartedDragginFromBottomLeft) {
+                    if (this.mouseDownPosition.x < object.position.x + object.dimension.width
+                        && this.mouseDownPosition.y > object.position.y
+                        && this.currentMousePosition.x > object.position.x
+                        && this.currentMousePosition.y < object.position.y + object.dimension.height) {
+                        object.state.isHovered = true;
+                    } else {
+                        object.state.isHovered = false;
+                    }
+                }
+            });
         }
+
+        this.objects.forEach((object) => object.draw(this.ctx));
 
         window.requestAnimationFrame(this.loop.bind(this));
     }
