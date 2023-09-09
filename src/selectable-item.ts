@@ -12,24 +12,26 @@ class SelectableItem extends Vector2d {
     public init(): void {
     }
 
-    public draw(ctx: CanvasRenderingContext2D): void {
+    private drawSelection(ctx: CanvasRenderingContext2D, isDashed: boolean): void {
+        ctx.beginPath();
+        ctx.strokeStyle = 'cyan';
 
-        if (this.state.isHovered) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'cyan';
+        if (isDashed) {
             ctx.setLineDash([5, 3])
-            ctx.rect(this.position.x - 8, this.position.y - 8, this.dimension.width + 16, this.dimension.height + 16);
-            ctx.stroke();
-            ctx.closePath();
-        }
-        
-        if (this.state.isSelected) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'cyan';
+        } else {
             ctx.setLineDash([0, 0])
-            ctx.rect(this.position.x - 8, this.position.y - 8, this.dimension.width + 16, this.dimension.height + 16);
-            ctx.stroke();
-            ctx.closePath();
+        }
+
+        ctx.rect(this.position.x - 8, this.position.y - 8, this.dimension.width + 16, this.dimension.height + 16);
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    public draw(ctx: CanvasRenderingContext2D): void {
+        if (this.state.isHovered) {
+            this.drawSelection(ctx, true);
+        } else if (this.state.isSelected) {
+            this.drawSelection(ctx, false);
         }
 
         ctx.beginPath();
