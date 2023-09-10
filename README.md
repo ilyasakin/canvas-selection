@@ -1,6 +1,6 @@
 # Canvas Selection Demo
 
-Welcome to the **Canvas Selection** repository! This project showcases a basic interactive canvas, reminiscent of the selection functionality found in design tools like Figma. In this canvas, you can interact with three objects by selecting them either through simple clicks or by employing a selection box – simply click and drag your cursor over the objects to choose them.
+This project showcases a basic interactive canvas, reminiscent of the selection functionality found in design tools like Figma. In this canvas, you can interact with three objects by selecting them either through simple clicks or by employing a selection box – simply click and drag your cursor over the objects to choose them.
 
 ## Getting Started
 
