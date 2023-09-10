@@ -47,7 +47,7 @@ class App {
 
     public loop(): void {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        this.ctx.strokeStyle = 'black';
+        this.ctx.strokeStyle = 'white';
         this.ctx.strokeRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         if (this.isMouseDown) {

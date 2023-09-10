@@ -35,7 +35,7 @@ class SelectableItem extends Vector2d {
         }
 
         ctx.beginPath();
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = 'white';
         ctx.setLineDash([0, 0])
 
         ctx.rect(
